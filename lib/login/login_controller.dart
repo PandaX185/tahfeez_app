@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tahfeez_app/api/api_client.dart';
-import 'package:tahfeez_app/models/login_models.dart';
+import 'package:tahfeez_app/models/login/login_models.dart';
 import 'package:flutter/material.dart';
-import 'package:tahfeez_app/models/teacher_models.dart';
+import 'package:tahfeez_app/models/login/teacher/teacher_models.dart';
 part 'login_controller.g.dart';
 
 @riverpod
@@ -34,23 +34,13 @@ class LoginController extends _$LoginController {
         phone: state.phone.toString(),
         password: state.password.toString(),
       ));
-      if (response.token.isNotEmpty) {
-        state = state.copyWith(
-          isTeacherLoading: false,
-          token: response.token,
-        );
-        if (context.mounted) {
-          Navigator.pushNamed(context, '/home');
-        }
-      } else {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Invalid login credentials'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
+
+      state = state.copyWith(
+        isTeacherLoading: false,
+        token: response.token,
+      );
+      if (context.mounted) {
+        Navigator.pushNamed(context, '/home', arguments: state.token);
       }
     } catch (e) {
       if (context.mounted) {
@@ -83,14 +73,12 @@ class LoginController extends _$LoginController {
           ),
           selectedTeacher.id.toString());
 
-      if (response.token.isNotEmpty) {
-        state = state.copyWith(
-          isStudentLoading: false,
-          token: response.token,
-        );
-        if (context.mounted) {
-          Navigator.pushNamed(context, '/home');
-        }
+      state = state.copyWith(
+        isStudentLoading: false,
+        token: response.token,
+      );
+      if (context.mounted) {
+        Navigator.pushNamed(context, '/home', arguments: state.token);
       }
     } catch (e) {
       if (context.mounted) {

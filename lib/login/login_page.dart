@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tahfeez_app/models/teacher_models.dart';
+import 'package:tahfeez_app/login/components/login_buttons.dart';
 import 'login_controller.dart';
 import '../config/theme.dart';
 import '../config/theme_controller.dart';
@@ -89,7 +89,7 @@ class LoginPage extends ConsumerWidget {
                       screenSize.width > 600
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: _buildLoginButtons(
+                              children: buildLoginButtons(
                                 context,
                                 loginState,
                                 loginController,
@@ -97,7 +97,7 @@ class LoginPage extends ConsumerWidget {
                             )
                           : Column(
                               children: [
-                                ..._buildLoginButtons(
+                                ...buildLoginButtons(
                                   context,
                                   loginState,
                                   loginController,
@@ -125,101 +125,4 @@ class LoginPage extends ConsumerWidget {
       ),
     );
   }
-
-  List<Widget> _buildLoginButtons(
-    BuildContext context,
-    LoginState loginState,
-    LoginController loginController,
-  ) {
-    final screenSize = MediaQuery.of(context).size;
-    final brightness = Theme.of(context).brightness;
-    final isDarkMode = brightness == Brightness.dark;
-
-    return [
-      ElevatedButton(
-        onPressed: loginState.isTeacherLoading
-            ? null
-            : () async {
-                await loginController.loginAsTeacher(context);
-              },
-        style: ElevatedButton.styleFrom(
-          backgroundColor:
-              isDarkMode ? AppTheme.primaryDark : AppTheme.primaryLight,
-          foregroundColor: Colors.white,
-          padding: EdgeInsets.symmetric(
-            horizontal: min(screenSize.width * 0.08, 50),
-            vertical: screenSize.height * 0.02,
-          ),
-        ),
-        child: loginState.isTeacherLoading
-            ? const CircularProgressIndicator(color: Colors.white)
-            : Text(AppLocalizations.of(context)!.loginAsTeacher),
-      ),
-      if (screenSize.width <= 600) const SizedBox(height: 16),
-      ElevatedButton(
-        onPressed: loginState.isStudentLoading
-            ? null
-            : () async {
-                await _showTeacherSelectionDialog(context, loginController);
-              },
-        style: ElevatedButton.styleFrom(
-          backgroundColor:
-              isDarkMode ? AppTheme.secondaryDark : AppTheme.secondaryLight,
-          foregroundColor: Colors.white,
-          padding: EdgeInsets.symmetric(
-            horizontal: min(screenSize.width * 0.08, 50),
-            vertical: screenSize.height * 0.02,
-          ),
-        ),
-        child: loginState.isStudentLoading
-            ? const CircularProgressIndicator(color: Colors.white)
-            : Text(AppLocalizations.of(context)!.loginAsStudent),
-      ),
-    ];
-  }
-}
-
-Future<void> _showTeacherSelectionDialog(
-    BuildContext parentContext, LoginController loginController) async {
-  return showDialog<void>(
-    context: parentContext,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text(AppLocalizations.of(context)!.selectTeacher),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: FutureBuilder<List<TeacherResponse>>(
-            future: loginController.getTeachersList(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              }
-              if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Text(AppLocalizations.of(context)!.noTeachersAvailable);
-              }
-
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  final teacher = snapshot.data![index];
-                  return ListTile(
-                    title: Text(teacher.name),
-                    subtitle: Text(teacher.phone),
-                    onTap: () {
-                      Navigator.pop(context);
-                      loginController.loginAsStudent(parentContext, teacher);
-                    },
-                  );
-                },
-              );
-            },
-          ),
-        ),
-      );
-    },
-  );
 }

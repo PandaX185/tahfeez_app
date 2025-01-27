@@ -1,8 +1,8 @@
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
-import 'package:tahfeez_app/models/teacher_models.dart';
+import 'package:tahfeez_app/models/login/teacher/teacher_models.dart';
 import '../config/app_config.dart';
-import '../models/login_models.dart';
+import '../models/login/login_models.dart';
 
 part 'api_client.g.dart';
 
