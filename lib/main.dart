@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tahfeez_app/home/home_page.dart';
 import 'package:tahfeez_app/login/login_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tahfeez_app/config/theme.dart';
@@ -23,7 +24,10 @@ class MyApp extends ConsumerWidget {
       title: 'Tahfeez',
       theme: isDarkMode ? AppTheme.darkTheme : AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
-      home: const LoginPage(),
+      routes: {
+        '/': (context) => const LoginPage(),
+        '/home': (context) => const HomePage(),
+      },
     );
   }
 }

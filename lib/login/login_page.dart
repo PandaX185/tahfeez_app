@@ -57,12 +57,13 @@ class LoginPage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   TextField(
-                    onChanged: loginController.updateEmail,
+                    onChanged: loginController.updatePhone,
                     decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context)!.emailHint,
-                      labelText: AppLocalizations.of(context)!.emailLabel,
-                      prefixIcon: Icon(Icons.email),
+                      hintText: AppLocalizations.of(context)!.phoneHint,
+                      labelText: AppLocalizations.of(context)!.phoneLabel,
+                      prefixIcon: Icon(Icons.phone),
                     ),
+                    keyboardType: TextInputType.phone,
                   ),
                   TextField(
                     onChanged: loginController.updatePassword,
@@ -138,10 +139,7 @@ class LoginPage extends ConsumerWidget {
         onPressed: loginState.isTeacherLoading
             ? null
             : () async {
-                await loginController.loginAsTeacher();
-                if (context.mounted) {
-                  Navigator.pushNamed(context, '/home');
-                }
+                await loginController.loginAsTeacher(context);
               },
         style: ElevatedButton.styleFrom(
           backgroundColor:
@@ -162,9 +160,6 @@ class LoginPage extends ConsumerWidget {
             ? null
             : () async {
                 await loginController.loginAsStudent();
-                if (context.mounted) {
-                  Navigator.pushNamed(context, '/student');
-                }
               },
         style: ElevatedButton.styleFrom(
           backgroundColor:

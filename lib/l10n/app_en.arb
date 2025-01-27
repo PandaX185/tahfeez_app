@@ -1,7 +1,7 @@
 {
   "appName": "Tahfeez",
-  "emailHint": "Enter your email",
-  "emailLabel": "Email",
+  "phoneHint": "Enter your phone number",
+  "phoneLabel": "Phone",
   "passwordHint": "Enter your password",
   "passwordLabel": "Password",
   "createNewAccount": "Create an account",

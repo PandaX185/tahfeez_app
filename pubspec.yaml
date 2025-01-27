@@ -39,6 +39,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: 
+  dio: 
+  retrofit: 
+  json_annotation: 
 
 dev_dependencies:
   flutter_test:
@@ -51,7 +54,9 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
   riverpod_generator: ^2.6.4
-  build_runner: ^2.4.14
+  retrofit_generator:
+  build_runner:
+  json_serializable:
   custom_lint: ^0.7.1
   riverpod_lint: ^2.6.4
 
