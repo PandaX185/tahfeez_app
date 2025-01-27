@@ -1,0 +1,10 @@
+{
+  "appName": "Tahfeez",
+  "emailHint": "Enter your email",
+  "emailLabel": "Email",
+  "passwordHint": "Enter your password",
+  "passwordLabel": "Password",
+  "createNewAccount": "Create an account",
+  "loginAsTeacher": "Login as a Teacher",
+  "loginAsStudent": "Login as a Student"
+}

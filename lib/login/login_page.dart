@@ -1,4 +1,6 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'login_controller.dart';
 import '../config/theme.dart';
@@ -12,11 +14,12 @@ class LoginPage extends ConsumerWidget {
     final loginState = ref.watch(loginControllerProvider);
     final loginController = ref.read(loginControllerProvider.notifier);
     final isDarkMode = ref.watch(themeControllerProvider);
-    
+
     final screenSize = MediaQuery.of(context).size;
-    
+
     return Scaffold(
-      backgroundColor: isDarkMode ? AppTheme.backgroundDark : AppTheme.backgroundLight,
+      backgroundColor:
+          isDarkMode ? AppTheme.backgroundDark : AppTheme.backgroundLight,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -48,30 +51,30 @@ class LoginPage extends ConsumerWidget {
                 children: [
                   Image.asset(
                     'assets/images/quran.png',
-                    width: screenSize.width * 0.35,
-                    height: screenSize.width * 0.35,
+                    width: min(screenSize.width * 0.35, 200),
+                    height: min(screenSize.width * 0.35, 200),
                     fit: BoxFit.contain,
                   ),
                   const SizedBox(height: 20),
                   TextField(
                     onChanged: loginController.updateEmail,
                     decoration: InputDecoration(
-                      hintText: 'Enter your email',
-                      labelText: 'Email',
+                      hintText: AppLocalizations.of(context)!.emailHint,
+                      labelText: AppLocalizations.of(context)!.emailLabel,
                       prefixIcon: Icon(Icons.email),
                     ),
                   ),
                   TextField(
                     onChanged: loginController.updatePassword,
                     decoration: InputDecoration(
-                      hintText: 'Enter your password',
-                      labelText: 'Password',
+                      hintText: AppLocalizations.of(context)!.passwordHint,
+                      labelText: AppLocalizations.of(context)!.passwordLabel,
                       prefixIcon: const Icon(Icons.lock),
                       suffixIcon: IconButton(
                         onPressed: loginController.togglePasswordVisibility,
                         icon: Icon(
-                          loginState.isPasswordVisible 
-                              ? Icons.visibility 
+                          loginState.isPasswordVisible
+                              ? Icons.visibility
                               : Icons.visibility_off,
                         ),
                       ),
@@ -85,16 +88,16 @@ class LoginPage extends ConsumerWidget {
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: _buildLoginButtons(
-                                context, 
-                                loginState, 
+                                context,
+                                loginState,
                                 loginController,
                               ),
                             )
                           : Column(
                               children: [
                                 ..._buildLoginButtons(
-                                  context, 
-                                  loginState, 
+                                  context,
+                                  loginState,
                                   loginController,
                                 ),
                                 const SizedBox(height: 16),
@@ -107,7 +110,8 @@ class LoginPage extends ConsumerWidget {
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.blue,
                         ),
-                        child: const Text('Create an account'),
+                        child: Text(
+                            AppLocalizations.of(context)!.createNewAccount),
                       ),
                     ],
                   ),
@@ -140,19 +144,19 @@ class LoginPage extends ConsumerWidget {
                 }
               },
         style: ElevatedButton.styleFrom(
-          backgroundColor: isDarkMode ? AppTheme.primaryDark : AppTheme.primaryLight,
+          backgroundColor:
+              isDarkMode ? AppTheme.primaryDark : AppTheme.primaryLight,
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(
-            horizontal: screenSize.width * 0.08,
+            horizontal: min(screenSize.width * 0.08, 50),
             vertical: screenSize.height * 0.02,
           ),
         ),
         child: loginState.isTeacherLoading
             ? const CircularProgressIndicator(color: Colors.white)
-            : const Text('Login as a Teacher'),
+            : Text(AppLocalizations.of(context)!.loginAsTeacher),
       ),
-      if (screenSize.width <= 600) 
-        const SizedBox(height: 16),
+      if (screenSize.width <= 600) const SizedBox(height: 16),
       ElevatedButton(
         onPressed: loginState.isStudentLoading
             ? null
@@ -163,16 +167,17 @@ class LoginPage extends ConsumerWidget {
                 }
               },
         style: ElevatedButton.styleFrom(
-          backgroundColor: isDarkMode ? AppTheme.secondaryDark : AppTheme.secondaryLight,
+          backgroundColor:
+              isDarkMode ? AppTheme.secondaryDark : AppTheme.secondaryLight,
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(
-            horizontal: screenSize.width * 0.08,
+            horizontal: min(screenSize.width * 0.08, 50),
             vertical: screenSize.height * 0.02,
           ),
         ),
         child: loginState.isStudentLoading
             ? const CircularProgressIndicator(color: Colors.white)
-            : const Text('Login as a Student'),
+            : Text(AppLocalizations.of(context)!.loginAsStudent),
       ),
     ];
   }

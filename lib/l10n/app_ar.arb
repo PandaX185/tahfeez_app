@@ -1,0 +1,10 @@
+{
+  "emailHint": "أدخل بريدك الإلكتروني",
+  "emailLabel": "البريد الإلكتروني",
+  "passwordHint": "أدخل كلمة المرور",
+  "passwordLabel": "كلمة المرور",
+  "createNewAccount": "إنشاء حساب جديد",
+  "loginAsTeacher": "تسجيل الدخول كمعلم",
+  "loginAsStudent": "تسجيل الدخول كطالب",
+  "appName": "تحفيظ"
+}
