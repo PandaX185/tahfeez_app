@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tahfeez_app/api/api_client.dart';
 import 'package:tahfeez_app/models/login_models.dart';
 import 'package:flutter/material.dart';
+import 'package:tahfeez_app/models/teacher_models.dart';
 part 'login_controller.g.dart';
 
 @riverpod
@@ -55,9 +56,8 @@ class LoginController extends _$LoginController {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(e is DioException
-                ? '${e.response?.data['message']}'
-                : 'An error occurred during login ${e.toString()}'),
+            content: Text(
+                e is DioException ? e.response?.data['message'] : e.toString()),
             backgroundColor: Colors.red,
           ),
         );
@@ -67,10 +67,41 @@ class LoginController extends _$LoginController {
     }
   }
 
-  Future<void> loginAsStudent() async {
+  Future<List<TeacherResponse>> getTeachersList() async {
+    final response = await apiClient.getTeachersList();
+    return response;
+  }
+
+  Future<void> loginAsStudent(
+      BuildContext context, TeacherResponse selectedTeacher) async {
     state = state.copyWith(isStudentLoading: true);
     try {
-      await Future.delayed(const Duration(seconds: 2));
+      final response = await apiClient.loginAsStudent(
+          LoginAsStudentRequest(
+            phone: state.phone.toString(),
+            password: state.password.toString(),
+          ),
+          selectedTeacher.id.toString());
+
+      if (response.token.isNotEmpty) {
+        state = state.copyWith(
+          isStudentLoading: false,
+          token: response.token,
+        );
+        if (context.mounted) {
+          Navigator.pushNamed(context, '/home');
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                e is DioException ? e.response?.data['message'] : e.toString()),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     } finally {
       state = state.copyWith(isStudentLoading: false);
     }

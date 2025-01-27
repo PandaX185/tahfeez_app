@@ -6,5 +6,7 @@
   "createNewAccount": "إنشاء حساب جديد",
   "loginAsTeacher": "تسجيل الدخول كمعلم",
   "loginAsStudent": "تسجيل الدخول كطالب",
-  "appName": "تحفيظ"
+  "appName": "تحفيظ",
+  "selectTeacher": "اختر معلم",
+  "noTeachersAvailable": "لا يوجد معلمين متاحين"
 }

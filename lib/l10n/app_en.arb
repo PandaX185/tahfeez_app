@@ -6,5 +6,7 @@
   "passwordLabel": "Password",
   "createNewAccount": "Create an account",
   "loginAsTeacher": "Login as a Teacher",
-  "loginAsStudent": "Login as a Student"
+  "loginAsStudent": "Login as a Student",
+  "selectTeacher": "Select a Teacher",
+  "noTeachersAvailable": "No teachers available"
 }

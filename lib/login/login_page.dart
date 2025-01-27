@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tahfeez_app/models/teacher_models.dart';
 import 'login_controller.dart';
 import '../config/theme.dart';
 import '../config/theme_controller.dart';
@@ -159,7 +160,7 @@ class LoginPage extends ConsumerWidget {
         onPressed: loginState.isStudentLoading
             ? null
             : () async {
-                await loginController.loginAsStudent();
+                await _showTeacherSelectionDialog(context, loginController);
               },
         style: ElevatedButton.styleFrom(
           backgroundColor:
@@ -176,4 +177,49 @@ class LoginPage extends ConsumerWidget {
       ),
     ];
   }
+}
+
+Future<void> _showTeacherSelectionDialog(
+    BuildContext parentContext, LoginController loginController) async {
+  return showDialog<void>(
+    context: parentContext,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(AppLocalizations.of(context)!.selectTeacher),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: FutureBuilder<List<TeacherResponse>>(
+            future: loginController.getTeachersList(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Text(AppLocalizations.of(context)!.noTeachersAvailable);
+              }
+
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  final teacher = snapshot.data![index];
+                  return ListTile(
+                    title: Text(teacher.name),
+                    subtitle: Text(teacher.phone),
+                    onTap: () {
+                      Navigator.pop(context);
+                      loginController.loginAsStudent(parentContext, teacher);
+                    },
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      );
+    },
+  );
 }
