@@ -1,5 +1,6 @@
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
+import 'package:tahfeez_app/models/home/profile_models.dart';
 import 'package:tahfeez_app/models/login/teacher/teacher_models.dart';
 import '../config/app_config.dart';
 import '../models/login/login_models.dart';
@@ -18,5 +19,11 @@ abstract class ApiClient {
       @Query('teacherId') String teacherId);
 
   @GET('/teacher')
-  Future<List<TeacherResponse>> getTeachersList();
+  Future<List<TeacherSelectionResponse>> getTeachersList();
+
+  @GET('/teacher/current')
+  Future<ProfileResponse> getTeacherProfile();
+
+  @GET('/student/current')
+  Future<ProfileResponse> getStudentProfile();
 }

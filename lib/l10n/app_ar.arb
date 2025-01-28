@@ -8,5 +8,6 @@
   "loginAsStudent": "تسجيل الدخول كطالب",
   "appName": "تحفيظ",
   "selectTeacher": "اختر معلم",
-  "noTeachersAvailable": "لا يوجد معلمين متاحين"
+  "noTeachersAvailable": "لا يوجد معلمين متاحين",
+  "home": "الرئيسية"
 }

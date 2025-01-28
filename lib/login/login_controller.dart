@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tahfeez_app/api/api_client.dart';
 import 'package:tahfeez_app/models/login/login_models.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ part 'login_controller.g.dart';
 
 @riverpod
 class LoginController extends _$LoginController {
-  final ApiClient apiClient = ApiClient(Dio());
+  ApiClient apiClient = ApiClient(Dio());
 
   @override
   LoginState build() {
@@ -37,11 +38,27 @@ class LoginController extends _$LoginController {
 
       state = state.copyWith(
         isTeacherLoading: false,
-        token: response.token,
+        token: response.token.toString(),
       );
       if (context.mounted) {
         Navigator.pushNamed(context, '/home', arguments: state.token);
       }
+
+      final dio = Dio();
+      dio.options.headers['Authorization'] =
+          'Bearer ${response.token.toString()}';
+      apiClient = ApiClient(dio);
+
+      final profileResponse = await apiClient.getTeacherProfile();
+
+      final prefs = await SharedPreferences.getInstance();
+
+      await prefs.setString('token', response.token.toString());
+      await prefs.setString('role', 'teacher');
+      await prefs.setString('id', profileResponse.id.toString());
+      await prefs.setString('name', profileResponse.name.toString());
+      await prefs.setString('phone', profileResponse.phone.toString());
+      await prefs.setString('birthDate', profileResponse.birthDate.toString());
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -57,13 +74,13 @@ class LoginController extends _$LoginController {
     }
   }
 
-  Future<List<TeacherResponse>> getTeachersList() async {
+  Future<List<TeacherSelectionResponse>> getTeachersList() async {
     final response = await apiClient.getTeachersList();
     return response;
   }
 
   Future<void> loginAsStudent(
-      BuildContext context, TeacherResponse selectedTeacher) async {
+      BuildContext context, TeacherSelectionResponse selectedTeacher) async {
     state = state.copyWith(isStudentLoading: true);
     try {
       final response = await apiClient.loginAsStudent(
@@ -75,8 +92,26 @@ class LoginController extends _$LoginController {
 
       state = state.copyWith(
         isStudentLoading: false,
-        token: response.token,
+        token: response.token.toString(),
       );
+
+      final dio = Dio();
+      dio.options.headers['Authorization'] =
+          'Bearer ${response.token.toString()}';
+      apiClient = ApiClient(dio);
+
+      final profileResponse = await apiClient.getStudentProfile();
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', response.token.toString());
+      await prefs.setString('role', 'student');
+      await prefs.setString('id', profileResponse.id.toString());
+      await prefs.setString('teacherId', selectedTeacher.id.toString());
+      await prefs.setString('name', profileResponse.name.toString());
+      await prefs.setString('phone', profileResponse.phone.toString());
+      await prefs.setString('birthDate', profileResponse.birthDate.toString());
+      await prefs.setInt('level', profileResponse.level ?? 0);
+
       if (context.mounted) {
         Navigator.pushNamed(context, '/home', arguments: state.token);
       }

@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'teacher_models.g.dart';
 
 @JsonSerializable()
-class TeacherResponse {
+class TeacherSelectionResponse {
   @JsonKey(name: 'id')
   final String id;
   @JsonKey(name: 'name')
@@ -11,14 +11,14 @@ class TeacherResponse {
   @JsonKey(name: 'phone')
   final String phone;
 
-  TeacherResponse({
+  TeacherSelectionResponse({
     required this.id,
     required this.name,
     required this.phone,
   });
 
-  factory TeacherResponse.fromJson(Map<String, dynamic> json) =>
-      _$TeacherResponseFromJson(json);
+  factory TeacherSelectionResponse.fromJson(Map<String, dynamic> json) =>
+      _$TeacherSelectionResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TeacherResponseToJson(this);
+  Map<String, dynamic> toJson() => _$TeacherSelectionResponseToJson(this);
 }

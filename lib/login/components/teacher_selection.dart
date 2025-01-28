@@ -12,7 +12,7 @@ Future<void> showTeacherSelectionDialog(
         title: Text(AppLocalizations.of(context)!.selectTeacher),
         content: SizedBox(
           width: double.maxFinite,
-          child: FutureBuilder<List<TeacherResponse>>(
+          child: FutureBuilder<List<TeacherSelectionResponse>>(
             future: loginController.getTeachersList(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
