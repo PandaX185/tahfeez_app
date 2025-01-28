@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tahfeez_app/components/app_bar.dart';
 import 'package:tahfeez_app/login/components/login_buttons.dart';
 import 'login_controller.dart';
 import '../config/theme.dart';
@@ -21,20 +22,11 @@ class LoginPage extends ConsumerWidget {
     return Scaffold(
       backgroundColor:
           isDarkMode ? AppTheme.backgroundDark : AppTheme.backgroundLight,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: Icon(
-              isDarkMode ? Icons.light_mode : Icons.dark_mode,
-              color: isDarkMode ? Colors.white : Colors.black,
-            ),
-            onPressed: () async {
-              await ref.read(themeControllerProvider.notifier).toggleTheme();
-            },
-          ),
-        ],
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: SharedAppBar(
+          title: AppLocalizations.of(context)!.appName,
+        ),
       ),
       body: Center(
         child: SingleChildScrollView(
