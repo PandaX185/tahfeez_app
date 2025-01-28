@@ -20,15 +20,6 @@ class SharedAppBar extends ConsumerWidget {
       elevation: 0,
       actions: [
         ...actions ?? [],
-        IconButton(
-          icon: Icon(
-            isDarkMode ? Icons.light_mode : Icons.dark_mode,
-            color: isDarkMode ? Colors.white : Colors.black,
-          ),
-          onPressed: () async {
-            await ref.read(themeControllerProvider.notifier).toggleTheme();
-          },
-        ),
       ],
     );
   }

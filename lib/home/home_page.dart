@@ -17,8 +17,10 @@ class HomePage extends ConsumerWidget {
           title: AppLocalizations.of(context)!.home,
           actions: [
             IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () {},
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                Navigator.pushNamed(context, '/settings');
+              },
             ),
           ],
         ),

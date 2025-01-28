@@ -26,6 +26,17 @@ class LoginPage extends ConsumerWidget {
         preferredSize: Size.fromHeight(50),
         child: SharedAppBar(
           title: AppLocalizations.of(context)!.appName,
+          actions: [
+            IconButton(
+              icon: Icon(
+                isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                color: isDarkMode ? Colors.white : Colors.black,
+              ),
+              onPressed: () async {
+                await ref.read(themeControllerProvider.notifier).toggleTheme();
+              },
+            ),
+          ],
         ),
       ),
       body: Center(
