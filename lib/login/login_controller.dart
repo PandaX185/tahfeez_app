@@ -74,8 +74,8 @@ class LoginController extends _$LoginController {
     }
   }
 
-  Future<List<TeacherSelectionResponse>> getTeachersList() async {
-    final response = await apiClient.getTeachersList();
+  Future<List<TeacherSelectionResponse>> getTeachersList(String phone) async {
+    final response = await apiClient.getTeachersList(phone);
     return response;
   }
 

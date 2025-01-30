@@ -4,7 +4,7 @@ import 'package:tahfeez_app/models/login/teacher/teacher_models.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> showTeacherSelectionDialog(
-    BuildContext parentContext, LoginController loginController) async {
+    BuildContext parentContext, LoginController loginController, String phone) async {
   return showDialog<void>(
     context: parentContext,
     builder: (BuildContext context) {
@@ -13,7 +13,7 @@ Future<void> showTeacherSelectionDialog(
         content: SizedBox(
           width: double.maxFinite,
           child: FutureBuilder<List<TeacherSelectionResponse>>(
-            future: loginController.getTeachersList(),
+            future: loginController.getTeachersList(phone),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());

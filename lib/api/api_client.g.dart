@@ -79,9 +79,9 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<List<TeacherSelectionResponse>> getTeachersList() async {
+  Future<List<TeacherSelectionResponse>> getTeachersList(String phone) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'studentPhone': phone};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<TeacherSelectionResponse>>(

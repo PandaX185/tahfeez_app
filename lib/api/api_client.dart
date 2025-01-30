@@ -19,7 +19,8 @@ abstract class ApiClient {
       @Query('teacherId') String teacherId);
 
   @GET('/teacher')
-  Future<List<TeacherSelectionResponse>> getTeachersList();
+  Future<List<TeacherSelectionResponse>> getTeachersList(
+      @Query('studentPhone') String phone);
 
   @GET('/teacher/current')
   Future<ProfileResponse> getTeacherProfile();
