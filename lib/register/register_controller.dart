@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tahfeez_app/api/api_client.dart';
 import 'package:tahfeez_app/dto/login/teacher/teacher_models.dart';
 import 'package:tahfeez_app/dto/register/register_models.dart';
+import 'package:tahfeez_app/components/shared_snackbars.dart';
 
 part 'register_controller.g.dart';
 
@@ -53,6 +54,15 @@ class RegisterController extends _$RegisterController {
     state = state.copyWith(teacherId: teacherId);
   }
 
+  void togglePasswordVisibility() {
+    state = state.copyWith(isPasswordVisible: !state.isPasswordVisible);
+  }
+
+  void toggleConfirmPasswordVisibility() {
+    state = state.copyWith(
+        isConfirmPasswordVisible: !state.isConfirmPasswordVisible);
+  }
+
   Future<void> register(BuildContext context,
       {required String name,
       required String phone,
@@ -78,21 +88,20 @@ class RegisterController extends _$RegisterController {
       state = state.copyWith(isLoading: false);
 
       if (context.mounted) {
+        successSnackBar(context, 'تم التسجيل بنجاح');
         Navigator.pushNamed(context, '/login');
       }
     } catch (e) {
       state = state.copyWith(isLoading: false);
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString())),
-        );
+        errorSnackBar(context, e.toString());
       }
     }
   }
 }
 
 class RegisterState {
-  final bool isLoading;
+  final bool isLoading, isPasswordVisible, isConfirmPasswordVisible;
   final String name,
       phone,
       password,
@@ -104,6 +113,8 @@ class RegisterState {
 
   const RegisterState({
     this.isLoading = false,
+    this.isPasswordVisible = false,
+    this.isConfirmPasswordVisible = false,
     this.name = '',
     this.phone = '',
     this.password = '',
@@ -116,6 +127,8 @@ class RegisterState {
 
   RegisterState copyWith({
     bool? isLoading,
+    bool? isPasswordVisible,
+    bool? isConfirmPasswordVisible,
     String? name,
     String? phone,
     String? password,
@@ -127,6 +140,9 @@ class RegisterState {
   }) {
     return RegisterState(
       isLoading: isLoading ?? this.isLoading,
+      isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
+      isConfirmPasswordVisible:
+          isConfirmPasswordVisible ?? this.isConfirmPasswordVisible,
       name: name ?? this.name,
       phone: phone ?? this.phone,
       password: password ?? this.password,

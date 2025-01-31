@@ -5,6 +5,7 @@ import 'package:tahfeez_app/api/api_client.dart';
 import 'package:tahfeez_app/dto/login/login_models.dart';
 import 'package:flutter/material.dart';
 import 'package:tahfeez_app/dto/login/teacher/teacher_models.dart';
+import 'package:tahfeez_app/components/shared_snackbars.dart';
 part 'login_controller.g.dart';
 
 @riverpod
@@ -41,6 +42,7 @@ class LoginController extends _$LoginController {
         token: response.token.toString(),
       );
       if (context.mounted) {
+        successSnackBar(context, 'تم تسجيل الدخول بنجاح');
         Navigator.pushNamed(context, '/home', arguments: state.token);
       }
 
@@ -61,13 +63,8 @@ class LoginController extends _$LoginController {
       await prefs.setString('birthDate', profileResponse.birthDate.toString());
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-                e is DioException ? e.response?.data['message'] : e.toString()),
-            backgroundColor: Colors.red,
-          ),
-        );
+        errorSnackBar(context,
+            e is DioException ? e.response?.data['message'] : e.toString());
       }
     } finally {
       state = state.copyWith(isTeacherLoading: false);
@@ -117,13 +114,8 @@ class LoginController extends _$LoginController {
       }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-                e is DioException ? e.response?.data['message'] : e.toString()),
-            backgroundColor: Colors.red,
-          ),
-        );
+        errorSnackBar(context,
+            e is DioException ? e.response?.data['message'] : e.toString());
       }
     } finally {
       state = state.copyWith(isStudentLoading: false);
