@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tahfeez_app/config/theme.dart';
 import 'package:tahfeez_app/config/theme_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tahfeez_app/register/register_page.dart';
 
 void main() {
   runApp(ProviderScope(child: const MyApp()));
@@ -27,6 +28,7 @@ class MyApp extends ConsumerWidget {
       routes: {
         '/': (context) => const LoginPage(),
         '/home': (context) => const HomePage(),
+        '/register': (context) => const RegisterPage(),
       },
     );
   }

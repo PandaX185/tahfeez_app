@@ -9,5 +9,21 @@
   "appName": "تحفيظ",
   "selectTeacher": "اختر معلم",
   "noTeachersAvailable": "لا يوجد معلمين متاحين",
-  "home": "الرئيسية"
+  "home": "الرئيسية",
+  "register": "التسجيل",
+  "nameHint": "أدخل اسمك",
+  "nameLabel": "الاسم",
+  "levelHint": "أدخل مستوى الطالب",
+  "levelLabel": "المستوى",
+  "birthDateHint": "أدخل تاريخ ميلادك",
+  "birthDateLabel": "تاريخ الميلاد",
+  "genderHint": "أدخل جنسك",
+  "genderLabel": "الجنس",
+  "confirmPasswordHint": "أدخل كلمة المرور مرة أخرى",
+  "confirmPasswordLabel": "تأكيد كلمة المرور",
+  "male": "ذكر",
+  "female": "أنثى",
+  "invalidDateFormat": "تاريخ غير صالح",
+  "invalidDate": "تاريخ غير صالح",
+  "birthdateLabel": "تاريخ الميلاد"
 }

@@ -25,9 +25,13 @@ List<Widget> buildLoginButtons(
         backgroundColor:
             isDarkMode ? AppTheme.primaryDark : AppTheme.primaryLight,
         foregroundColor: Colors.white,
+        elevation: 0,
         padding: EdgeInsets.symmetric(
           horizontal: min(screenSize.width * 0.08, 50),
-          vertical: screenSize.height * 0.02,
+          vertical: screenSize.height * 0.03,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
         ),
       ),
       child: loginState.isTeacherLoading
@@ -39,16 +43,20 @@ List<Widget> buildLoginButtons(
       onPressed: loginState.isStudentLoading
           ? null
           : () async {
-              await showTeacherSelectionDialog(context, loginController,
-                  loginState.phone.toString());
+              await showTeacherSelectionDialog(
+                  context, loginController, loginState.phone.toString());
             },
       style: ElevatedButton.styleFrom(
         backgroundColor:
             isDarkMode ? AppTheme.secondaryDark : AppTheme.secondaryLight,
         foregroundColor: Colors.white,
+        elevation: 0,
         padding: EdgeInsets.symmetric(
           horizontal: min(screenSize.width * 0.08, 50),
-          vertical: screenSize.height * 0.02,
+          vertical: screenSize.height * 0.03,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
         ),
       ),
       child: loginState.isStudentLoading

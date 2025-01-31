@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tahfeez_app/components/app_bar.dart';
+import 'package:tahfeez_app/components/shared_app_bar.dart';
 import 'package:tahfeez_app/login/components/login_buttons.dart';
 import 'login_controller.dart';
 import '../config/theme.dart';
@@ -87,7 +87,6 @@ class LoginPage extends ConsumerWidget {
                     obscureText: !loginState.isPasswordVisible,
                   ),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       screenSize.width > 600
                           ? Row(
@@ -108,9 +107,10 @@ class LoginPage extends ConsumerWidget {
                                 const SizedBox(height: 16),
                               ],
                             ),
+                      SizedBox(height: screenSize.height * 0.03),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/signup');
+                          Navigator.pushNamed(context, '/register');
                         },
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.blue,

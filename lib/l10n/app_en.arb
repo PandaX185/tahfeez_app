@@ -9,5 +9,21 @@
   "loginAsStudent": "Login as a Student",
   "selectTeacher": "Select a Teacher",
   "noTeachersAvailable": "No teachers available",
-  "home": "Home"
+  "home": "Home",
+  "register": "Register",
+  "nameHint": "Enter your name",
+  "nameLabel": "Name",
+  "levelHint": "Enter your level",
+  "levelLabel": "Level",
+  "birthDateHint": "Enter your birth date",
+  "birthDateLabel": "Birth Date",
+  "genderHint": "Enter your gender",
+  "genderLabel": "Gender",
+  "male": "Male",
+  "female": "Female",
+  "confirmPasswordHint": "Enter your password again",
+  "confirmPasswordLabel": "Confirm Password",
+  "invalidDateFormat": "Invalid date format",
+  "invalidDate": "Invalid date",
+  "birthdateLabel": "Birth Date"
 }

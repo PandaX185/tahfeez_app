@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tahfeez_app/components/app_bar.dart';
+import 'package:tahfeez_app/components/shared_app_bar.dart';
 import 'package:tahfeez_app/home/home_controller.dart';
 
 class HomePage extends ConsumerWidget {
