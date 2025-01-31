@@ -25,5 +25,6 @@
   "female": "أنثى",
   "invalidDateFormat": "تاريخ غير صالح",
   "invalidDate": "تاريخ غير صالح",
-  "birthdateLabel": "تاريخ الميلاد"
+  "birthdateLabel": "تاريخ الميلاد",
+  "passwordMismatch": "كلمة المرور غير متطابقة"
 }

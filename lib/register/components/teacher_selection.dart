@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tahfeez_app/login/login_controller.dart';
+import 'package:tahfeez_app/dto/register/register_models.dart';
+import 'package:tahfeez_app/register/register_controller.dart';
 import 'package:tahfeez_app/dto/login/teacher/teacher_models.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-Future<void> showTeacherSelectionDialog(BuildContext parentContext,
-    LoginController loginController, String phone) async {
+Future<void> showTeacherSelectionDialog(
+    BuildContext parentContext,
+    RegisterController registerController,
+    RegisterRequest registerRequest) async {
   return showDialog<void>(
     context: parentContext,
     builder: (BuildContext context) {
@@ -13,7 +16,7 @@ Future<void> showTeacherSelectionDialog(BuildContext parentContext,
         content: SizedBox(
           width: double.maxFinite,
           child: FutureBuilder<List<TeacherSelectionResponse>>(
-            future: loginController.getTeachersList(phone),
+            future: registerController.fetchTeachersList(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -35,7 +38,16 @@ Future<void> showTeacherSelectionDialog(BuildContext parentContext,
                     subtitle: Text(teacher.phone),
                     onTap: () {
                       Navigator.pop(context);
-                      loginController.loginAsStudent(parentContext, teacher);
+                      registerController.register(
+                        parentContext,
+                        name: registerRequest.name,
+                        phone: registerRequest.phone,
+                        password: registerRequest.password,
+                        level: registerRequest.level,
+                        gender: registerRequest.gender,
+                        birthDate: registerRequest.birthDate,
+                        teacherId: teacher.id,
+                      );
                     },
                   );
                 },

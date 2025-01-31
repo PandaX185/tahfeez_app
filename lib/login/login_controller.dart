@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tahfeez_app/api/api_client.dart';
-import 'package:tahfeez_app/models/login/login_models.dart';
+import 'package:tahfeez_app/dto/login/login_models.dart';
 import 'package:flutter/material.dart';
-import 'package:tahfeez_app/models/login/teacher/teacher_models.dart';
+import 'package:tahfeez_app/dto/login/teacher/teacher_models.dart';
 part 'login_controller.g.dart';
 
 @riverpod
@@ -75,7 +75,7 @@ class LoginController extends _$LoginController {
   }
 
   Future<List<TeacherSelectionResponse>> getTeachersList(String phone) async {
-    final response = await apiClient.getTeachersList(phone);
+    final response = await apiClient.fetchTeachersByStudentPhone(phone);
     return response;
   }
 

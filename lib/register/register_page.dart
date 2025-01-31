@@ -1,11 +1,13 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:tahfeez_app/components/shared_app_bar.dart';
 import 'package:tahfeez_app/config/theme.dart';
 import 'package:tahfeez_app/config/theme_controller.dart';
+import 'package:tahfeez_app/dto/register/register_models.dart';
+import 'package:tahfeez_app/register/components/teacher_selection.dart';
+import 'package:tahfeez_app/register/register_controller.dart';
 
 class RegisterPage extends ConsumerWidget {
   const RegisterPage({super.key});
@@ -14,6 +16,8 @@ class RegisterPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final screenSize = MediaQuery.of(context).size;
     final isDarkMode = ref.watch(themeControllerProvider);
+    final registerState = ref.watch(registerControllerProvider);
+    final registerController = ref.read(registerControllerProvider.notifier);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
@@ -32,7 +36,12 @@ class RegisterPage extends ConsumerWidget {
             TextField(
               decoration: InputDecoration(
                 hintText: AppLocalizations.of(context)!.nameHint,
+                labelText: AppLocalizations.of(context)!.nameLabel,
+                prefixIcon: const Icon(Icons.person),
               ),
+              onChanged: (value) {
+                registerController.updateName(value);
+              },
             ),
             TextField(
               decoration: InputDecoration(
@@ -40,6 +49,9 @@ class RegisterPage extends ConsumerWidget {
                 labelText: AppLocalizations.of(context)!.phoneLabel,
                 prefixIcon: const Icon(Icons.phone),
               ),
+              onChanged: (value) {
+                registerController.updatePhone(value);
+              },
             ),
             TextField(
               decoration: InputDecoration(
@@ -47,6 +59,9 @@ class RegisterPage extends ConsumerWidget {
                 labelText: AppLocalizations.of(context)!.passwordLabel,
                 prefixIcon: const Icon(Icons.lock),
               ),
+              onChanged: (value) {
+                registerController.updatePassword(value);
+              },
               obscureText: true,
             ),
             TextField(
@@ -55,6 +70,9 @@ class RegisterPage extends ConsumerWidget {
                 labelText: AppLocalizations.of(context)!.confirmPasswordLabel,
                 prefixIcon: const Icon(Icons.lock),
               ),
+              onChanged: (value) {
+                registerController.updateConfirmPassword(value);
+              },
               obscureText: true,
             ),
             Row(
@@ -84,6 +102,9 @@ class RegisterPage extends ConsumerWidget {
                       DropdownMenuEntry(value: '10', label: '10'),
                     ],
                     label: Text(AppLocalizations.of(context)!.levelLabel),
+                    onSelected: (value) {
+                      registerController.updateLevel(value!);
+                    },
                   ),
                 ),
                 SizedBox(
@@ -95,8 +116,10 @@ class RegisterPage extends ConsumerWidget {
                           title: Text(AppLocalizations.of(context)!.male),
                           leading: Radio(
                             value: AppLocalizations.of(context)!.male,
-                            groupValue: AppLocalizations.of(context)!.male,
-                            onChanged: (value) => {},
+                            groupValue: registerState.gender,
+                            onChanged: (value) {
+                              registerController.updateGender(value!);
+                            },
                           ),
                         ),
                       ),
@@ -105,8 +128,10 @@ class RegisterPage extends ConsumerWidget {
                           title: Text(AppLocalizations.of(context)!.female),
                           leading: Radio(
                             value: AppLocalizations.of(context)!.female,
-                            groupValue: AppLocalizations.of(context)!.male,
-                            onChanged: (value) => {},
+                            groupValue: registerState.gender,
+                            onChanged: (value) {
+                              registerController.updateGender(value!);
+                            },
                           ),
                         ),
                       ),
@@ -115,16 +140,53 @@ class RegisterPage extends ConsumerWidget {
                 ),
               ],
             ),
-            InputDatePickerFormField(
-              firstDate: DateTime(1900),
-              lastDate: DateTime.now(),
-              fieldLabelText: AppLocalizations.of(context)!.birthdateLabel,
-              onDateSubmitted: (date) {},
-              errorFormatText: AppLocalizations.of(context)!.invalidDateFormat,
-              errorInvalidText: AppLocalizations.of(context)!.invalidDate,
+            TextButton.icon(
+              onPressed: () async {
+                final DateTime? picked = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime.now(),
+                );
+                if (picked != null) {
+                  registerController
+                      .updateBirthDate(picked.toString().split(' ')[0]);
+                }
+              },
+              icon: const Icon(Icons.calendar_today),
+              label: Text(
+                registerState.birthDate.isEmpty
+                    ? AppLocalizations.of(context)!.birthdateLabel
+                    : registerState.birthDate.split(' ')[0],
+              ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: registerState.isLoading
+                  ? null
+                  : () async {
+                      if (registerState.password !=
+                          registerState.confirmPassword) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                AppLocalizations.of(context)!.passwordMismatch),
+                          ),
+                        );
+                        return;
+                      }
+                      await showTeacherSelectionDialog(
+                        context,
+                        registerController,
+                        RegisterRequest(
+                          name: registerState.name,
+                          phone: registerState.phone,
+                          password: registerState.password,
+                          level: registerState.level,
+                          gender: registerState.gender,
+                          birthDate: registerState.birthDate,
+                        ),
+                      );
+                    },
               style: ElevatedButton.styleFrom(
                 backgroundColor:
                     isDarkMode ? AppTheme.primaryDark : AppTheme.primaryLight,

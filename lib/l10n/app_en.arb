@@ -25,5 +25,6 @@
   "confirmPasswordLabel": "Confirm Password",
   "invalidDateFormat": "Invalid date format",
   "invalidDate": "Invalid date",
-  "birthdateLabel": "Birth Date"
+  "birthdateLabel": "Birth Date",
+  "passwordMismatch": "Password mismatch"
 }
