@@ -33,6 +33,5 @@ abstract class ApiClient {
   Future<ProfileResponse> getStudentProfile();
 
   @POST('/student')
-  Future<RegisterResponse> register(
-      @Body() RegisterRequest request, @Query('teacherId') String teacherId);
+  Future<RegisterResponse> register(@Body() RegisterRequest request);
 }

@@ -11,9 +11,10 @@ RegisterRequest _$RegisterRequestFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       phone: json['phone'] as String,
       password: json['password'] as String,
-      level: json['level'] as String,
+      level: (json['level'] as num).toInt(),
       gender: json['gender'] as String,
       birthDate: json['birthDate'] as String,
+      teacherId: json['teacherId'] as String,
     );
 
 Map<String, dynamic> _$RegisterRequestToJson(RegisterRequest instance) =>
@@ -24,6 +25,7 @@ Map<String, dynamic> _$RegisterRequestToJson(RegisterRequest instance) =>
       'level': instance.level,
       'gender': instance.gender,
       'birthDate': instance.birthDate,
+      'teacherId': instance.teacherId,
     };
 
 RegisterResponse _$RegisterResponseFromJson(Map<String, dynamic> json) =>

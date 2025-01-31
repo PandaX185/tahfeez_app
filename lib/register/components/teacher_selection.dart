@@ -37,17 +37,9 @@ Future<void> showTeacherSelectionDialog(
                     title: Text(teacher.name),
                     subtitle: Text(teacher.phone),
                     onTap: () {
+                      registerController.updateTeacherId(teacher.id);
                       Navigator.pop(context);
-                      registerController.register(
-                        parentContext,
-                        name: registerRequest.name,
-                        phone: registerRequest.phone,
-                        password: registerRequest.password,
-                        level: registerRequest.level,
-                        gender: registerRequest.gender,
-                        birthDate: registerRequest.birthDate,
-                        teacherId: teacher.id,
-                      );
+                      registerController.register(parentContext);
                     },
                   );
                 },

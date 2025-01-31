@@ -11,11 +11,13 @@ class RegisterRequest {
   @JsonKey(name: 'password')
   final String password;
   @JsonKey(name: 'level')
-  final String level;
+  final int level;
   @JsonKey(name: 'gender')
   final String gender;
   @JsonKey(name: 'birthDate')
   final String birthDate;
+  @JsonKey(name: 'teacherId')
+  final String teacherId;
 
   RegisterRequest({
     required this.name,
@@ -24,6 +26,7 @@ class RegisterRequest {
     required this.level,
     required this.gender,
     required this.birthDate,
+    required this.teacherId,
   });
 
   factory RegisterRequest.fromJson(Map<String, dynamic> json) =>

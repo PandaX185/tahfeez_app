@@ -38,7 +38,7 @@ class RegisterController extends _$RegisterController {
     state = state.copyWith(confirmPassword: confirmPassword);
   }
 
-  void updateLevel(String level) {
+  void updateLevel(int level) {
     state = state.copyWith(level: level);
   }
 
@@ -63,33 +63,32 @@ class RegisterController extends _$RegisterController {
         isConfirmPasswordVisible: !state.isConfirmPasswordVisible);
   }
 
-  Future<void> register(BuildContext context,
-      {required String name,
-      required String phone,
-      required String password,
-      required String level,
-      required String gender,
-      required String birthDate,
-      required String teacherId}) async {
+  Future<void> register(BuildContext context) async {
     state = state.copyWith(isLoading: true);
 
     try {
       await apiClient.register(
         RegisterRequest(
-          name: state.name,
-          phone: state.phone,
+          name: state.name.trim(),
+          phone: state.phone.trim(),
           password: state.password,
           level: state.level,
           gender: state.gender,
           birthDate: state.birthDate,
+          teacherId: state.teacherId.toString(),
         ),
-        state.teacherId,
       );
       state = state.copyWith(isLoading: false);
 
       if (context.mounted) {
         successSnackBar(context, 'تم التسجيل بنجاح');
         Navigator.pushNamed(context, '/login');
+      }
+    } on DioException catch (e) {
+      state = state.copyWith(isLoading: false);
+      if (context.mounted) {
+        errorSnackBar(
+            context, e.response?.data['message'].toString() ?? e.toString());
       }
     } catch (e) {
       state = state.copyWith(isLoading: false);
@@ -106,10 +105,10 @@ class RegisterState {
       phone,
       password,
       confirmPassword,
-      level,
       gender,
       birthDate,
       teacherId;
+  final int level;
 
   const RegisterState({
     this.isLoading = false,
@@ -119,7 +118,7 @@ class RegisterState {
     this.phone = '',
     this.password = '',
     this.confirmPassword = '',
-    this.level = '',
+    this.level = 0,
     this.gender = '',
     this.birthDate = '',
     this.teacherId = '',
@@ -133,7 +132,7 @@ class RegisterState {
     String? phone,
     String? password,
     String? confirmPassword,
-    String? level,
+    int? level,
     String? gender,
     String? birthDate,
     String? teacherId,

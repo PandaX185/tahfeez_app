@@ -201,12 +201,9 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<RegisterResponse> register(
-    RegisterRequest request,
-    String teacherId,
-  ) async {
+  Future<RegisterResponse> register(RegisterRequest request) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'teacherId': teacherId};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
